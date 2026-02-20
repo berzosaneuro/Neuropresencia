@@ -1,15 +1,15 @@
-import { Metadata } from 'next'
+'use client'
+
 import Link from 'next/link'
 import Container from '@/components/Container'
 import Card from '@/components/Card'
 import FadeInSection from '@/components/FadeInSection'
+import PremiumLock from '@/components/PremiumLock'
+import PremiumBadge from '@/components/PremiumBadge'
 import { posts } from '@/data/posts'
 import { BookOpen } from 'lucide-react'
 
-export const metadata: Metadata = {
-  title: 'Biblioteca — Neuropresencia',
-  description: 'Artículos sobre metacognición, neuroplasticidad, atención y presencia. Conocimiento para entrenar tu mente.',
-}
+const FREE_SLUGS = ['por-que-tu-mente-no-se-calla', 'ego-mecanismo-defensivo']
 
 export default function BibliotecaPage() {
   return (
@@ -30,14 +30,18 @@ export default function BibliotecaPage() {
       <section className="pb-20">
         <Container>
           <div className="max-w-3xl mx-auto space-y-6">
-            {posts.map((post, i) => (
-              <FadeInSection key={post.slug}>
+            {posts.map((post) => {
+              const isFree = FREE_SLUGS.includes(post.slug)
+              const cardContent = (
                 <Link href={`/biblioteca/${post.slug}`}>
                   <Card className="group cursor-pointer">
                     <div className="flex items-start gap-4">
                       <BookOpen className="w-5 h-5 text-accent-blue mt-1 shrink-0" />
-                      <div>
-                        <p className="text-text-secondary text-xs font-mono mb-2">{post.date}</p>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <p className="text-text-secondary text-xs font-mono">{post.date}</p>
+                          {!isFree && <PremiumBadge />}
+                        </div>
                         <h2 className="font-heading text-lg font-semibold text-white group-hover:text-accent-blue transition-colors mb-2">
                           {post.title}
                         </h2>
@@ -48,8 +52,18 @@ export default function BibliotecaPage() {
                     </div>
                   </Card>
                 </Link>
-              </FadeInSection>
-            ))}
+              )
+
+              return (
+                <FadeInSection key={post.slug}>
+                  {isFree ? cardContent : (
+                    <PremiumLock label={post.title}>
+                      {cardContent}
+                    </PremiumLock>
+                  )}
+                </FadeInSection>
+              )
+            })}
           </div>
         </Container>
       </section>

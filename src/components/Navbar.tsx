@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, Brain } from 'lucide-react'
+import { Menu, X, Brain, Crown } from 'lucide-react'
+import { usePremium } from '@/context/PremiumContext'
 
 const links = [
   { href: '/', label: 'Inicio' },
@@ -16,6 +17,7 @@ const links = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
+  const { isPremium } = usePremium()
 
   return (
     <nav className="sticky top-0 z-50 bg-dark-primary/80 backdrop-blur-xl border-b border-dark-border">
@@ -36,12 +38,19 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              href="/metodo"
-              className="ml-2 px-5 py-2 bg-accent-blue text-white text-sm font-medium rounded-lg hover:bg-accent-blue-hover transition-all glow-blue glow-blue-hover"
-            >
-              Empezar
-            </Link>
+            {isPremium ? (
+              <span className="ml-2 inline-flex items-center gap-1.5 px-4 py-2 bg-yellow-500/20 text-yellow-400 text-sm font-semibold rounded-lg border border-yellow-500/30">
+                <Crown className="w-4 h-4" />
+                PRO
+              </span>
+            ) : (
+              <Link
+                href="/planes"
+                className="ml-2 px-5 py-2 bg-accent-blue text-white text-sm font-medium rounded-lg hover:bg-accent-blue-hover transition-all glow-blue glow-blue-hover"
+              >
+                Empezar
+              </Link>
+            )}
           </div>
 
           <button
@@ -66,13 +75,22 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              href="/metodo"
-              onClick={() => setOpen(false)}
-              className="block text-center mt-4 px-5 py-2 bg-accent-blue text-white text-sm font-medium rounded-lg hover:bg-accent-blue-hover transition-all"
-            >
-              Empezar
-            </Link>
+            {isPremium ? (
+              <div className="flex justify-center mt-4">
+                <span className="inline-flex items-center gap-1.5 px-4 py-2 bg-yellow-500/20 text-yellow-400 text-sm font-semibold rounded-lg border border-yellow-500/30">
+                  <Crown className="w-4 h-4" />
+                  PRO
+                </span>
+              </div>
+            ) : (
+              <Link
+                href="/planes"
+                onClick={() => setOpen(false)}
+                className="block text-center mt-4 px-5 py-2 bg-accent-blue text-white text-sm font-medium rounded-lg hover:bg-accent-blue-hover transition-all"
+              >
+                Empezar
+              </Link>
+            )}
           </div>
         </div>
       )}

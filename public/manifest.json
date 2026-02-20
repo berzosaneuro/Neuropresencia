@@ -1,0 +1,21 @@
+{
+  "name": "Neuropresencia",
+  "short_name": "Neuropresencia",
+  "description": "Supraconciencia, metacognición y neuroplasticidad para apagar el ruido mental y vivir desde el presente.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#3B82F6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["health", "lifestyle", "education"],
+  "lang": "es",
+  "dir": "ltr"
+}
